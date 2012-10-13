@@ -19,5 +19,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 	<context:component-scan base-package="uk.co.onehp" />
 	<task:annotation-driven/>
+	
+	<bean id="restOperations" class="org.springframework.web.client.RestTemplate">
+		<constructor-arg>
+			<bean
+				class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+				<property name="readTimeout" value="30000" />
+			</bean>
+		</constructor-arg>
+	</bean>
 
 </beans>
