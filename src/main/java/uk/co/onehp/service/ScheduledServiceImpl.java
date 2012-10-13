@@ -16,11 +16,11 @@ public class ScheduledServiceImpl implements ScheduledService {
 	RestOperations restOperations;
 
 	@Override
-	@Scheduled(cron = "* * * * * *")
+	@Scheduled(cron = "0 * * * * *")
 	public void scrape() {
 		LOG.info("scrape");
-		String response = this.restOperations.getForObject("http://qrym5z41qhtr19k9.browserver.org", String.class,
-				new Object[] {});
+		String response = this.restOperations.getForObject(
+				"http://www.justice.gov.uk/courts/court-lists/list-cause-rcj", String.class, new Object[] {});
 		LOG.info(response);
 	}
 
