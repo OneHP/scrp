@@ -16,30 +16,37 @@ import org.springframework.web.client.RestOperations;
 @Service("scheduledService")
 public class ScheduledServiceImpl implements ScheduledService {
 
-	static final Logger LOG = LoggerFactory.getLogger(ScheduledServiceImpl.class);
+	static final Logger LOG = LoggerFactory
+			.getLogger(ScheduledServiceImpl.class);
 
 	@Autowired
 	RestOperations restOperations;
-	
+
 	@Autowired
 	MailService mailService;
 
 	// private final Pattern pattern =
-	// Pattern.compile("[bB][aA][rR][cC][lL][aA][yY]");
-	private final Pattern pattern = Pattern.compile("[aA][wW][aA][kK][uU]");
+	private final Pattern pattern = Pattern
+			.compile("[bB][aA][rR][cC][lL][aA][yY]");
+
+	// private final Pattern pattern = Pattern.compile("[aA][wW][aA][kK][uU]");
 
 	@Override
-	@Scheduled(cron = "0 * * * * *")
+	@Scheduled(cron = "0 30 8 * * *")
 	public void scrape() {
 		LOG.info("scrape");
 		String response = this.restOperations.getForObject(
-				"http://www.justice.gov.uk/courts/court-lists/list-cause-rcj", String.class, new Object[] {});
+				"http://www.justice.gov.uk/courts/court-lists/list-cause-rcj",
+				String.class, new Object[] {});
 
 		Matcher matcher = this.pattern.matcher(response);
-		LOG.info("" + matcher.find());
-		
+		boolean find = matcher.find();
+		LOG.info("" + find);
+
 		try {
-			mailService.sendMail();
+			if (find) {
+				mailService.sendMail();
+			}
 		} catch (AddressException e) {
 			LOG.error(e.getLocalizedMessage());
 		} catch (MessagingException e) {
