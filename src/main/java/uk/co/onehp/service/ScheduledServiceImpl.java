@@ -17,10 +17,13 @@ public class ScheduledServiceImpl implements ScheduledService {
 
 	@Autowired
 	RestOperations restOperations;
+	
+	@Autowired
+	MailService mailService;
 
 	// private final Pattern pattern =
 	// Pattern.compile("[bB][aA][rR][cC][lL][aA][yY]");
-	private final Pattern pattern = Pattern.compile("[hH][oO][lL][mM][aA][nN]");
+	private final Pattern pattern = Pattern.compile("[aA][wW][aA][kK][uU]");
 
 	@Override
 	@Scheduled(cron = "0 * * * * *")
