@@ -3,6 +3,9 @@ package uk.co.onehp.service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,14 @@ public class ScheduledServiceImpl implements ScheduledService {
 
 		Matcher matcher = this.pattern.matcher(response);
 		LOG.info("" + matcher.find());
+		
+		try {
+			mailService.sendMail();
+		} catch (AddressException e) {
+			LOG.error(e.getLocalizedMessage());
+		} catch (MessagingException e) {
+			LOG.error(e.getLocalizedMessage());
+		}
 	}
 
 }
